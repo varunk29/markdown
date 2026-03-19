@@ -2,7 +2,7 @@ import { useCallback, useRef } from 'react'
 import { useEditorStore } from '@/stores/editorStore'
 import { useFileStore } from '@/stores/fileStore'
 import { getDocument } from '@/lib/db'
-import { readFileAsText } from '@/lib/fileUtils'
+import { readFileAsText, downloadAsMarkdown } from '@/lib/fileUtils'
 
 export function useFileOperations() {
   const setActiveDocument = useEditorStore((s) => s.setActiveDocument)
@@ -62,6 +62,14 @@ export function useFileOperations() {
     [createNewDocument],
   )
 
+  const exportCurrentDocument = useCallback(() => {
+    const { activeDocumentId, content } = useEditorStore.getState()
+    if (!activeDocumentId) return
+    const file = useFileStore.getState().files.find((f) => f.id === activeDocumentId)
+    if (!file) return
+    downloadAsMarkdown(file.name, content)
+  }, [])
+
   const scheduleAutoSave = useCallback(() => {
     if (autoSaveTimerRef.current) {
       clearTimeout(autoSaveTimerRef.current)
@@ -77,6 +85,7 @@ export function useFileOperations() {
     createNewDocument,
     deleteDocument,
     importFromFile,
+    exportCurrentDocument,
     scheduleAutoSave,
   }
 }

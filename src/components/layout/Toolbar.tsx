@@ -45,7 +45,7 @@ export function Toolbar() {
 
   return (
     <div className="flex items-center h-11 px-2 gap-1 border-b border-border bg-surface-secondary shrink-0">
-      <IconButton label="Toggle sidebar (Cmd+B)" onClick={toggleSidebar} size="sm">
+      <IconButton label="Toggle sidebar" shortcut="⌘B" onClick={toggleSidebar} size="sm">
         <List size={18} />
       </IconButton>
 
@@ -63,6 +63,7 @@ export function Toolbar() {
       <div className="flex items-center bg-surface-tertiary rounded-lg p-0.5 gap-0.5">
         <IconButton
           label="Split view"
+          shortcut="⌘⇧E"
           size="sm"
           active={viewMode === 'split'}
           onClick={() => setViewMode('split')}
@@ -71,6 +72,7 @@ export function Toolbar() {
         </IconButton>
         <IconButton
           label="Tab view"
+          shortcut="⌘⇧E"
           size="sm"
           active={viewMode === 'tabs'}
           onClick={() => setViewMode('tabs')}
@@ -84,7 +86,7 @@ export function Toolbar() {
           <div className="w-px h-5 bg-border mx-1" />
           <div className="flex items-center bg-surface-tertiary rounded-lg p-0.5 gap-0.5">
             <IconButton
-              label="Edit"
+              label="Editor"
               size="sm"
               active={activeTab === 'edit'}
               onClick={() => setActiveTab('edit')}
@@ -109,12 +111,13 @@ export function Toolbar() {
 
       {activeDocumentId && (
         <>
-          <IconButton label="Export as .md" onClick={handleExport} size="sm">
+          <IconButton label="Export as .md" shortcut="⌘E" onClick={handleExport} size="sm">
             <DownloadSimple size={18} />
           </IconButton>
 
           <IconButton
-            label={isDirty ? 'Save (Cmd+S)' : 'Saved'}
+            label={isDirty ? 'Save' : 'Saved'}
+            shortcut="⌘S"
             onClick={handleSave}
             size="sm"
           >

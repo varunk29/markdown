@@ -1,12 +1,13 @@
-import { memo, useState, useCallback } from 'react'
+import { memo, useState, useCallback, type ReactNode } from 'react'
 import { Copy, Check } from '@phosphor-icons/react'
 
 interface CodeBlockProps {
   language: string
   code: string
+  children?: ReactNode
 }
 
-export const CodeBlock = memo(function CodeBlock({ language, code }: CodeBlockProps) {
+export const CodeBlock = memo(function CodeBlock({ language, code, children }: CodeBlockProps) {
   const [copied, setCopied] = useState(false)
 
   const handleCopy = useCallback(async () => {
@@ -38,7 +39,7 @@ export const CodeBlock = memo(function CodeBlock({ language, code }: CodeBlockPr
         </button>
       </div>
       <pre className="!mt-0 !pt-10">
-        <code className={`language-${language}`}>{code}</code>
+        <code className={`language-${language}`}>{children ?? code}</code>
       </pre>
     </div>
   )

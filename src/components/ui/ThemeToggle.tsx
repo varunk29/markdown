@@ -27,7 +27,7 @@ export function ThemeToggle() {
   const Icon = icons[theme]
 
   return (
-    <IconButton label={labels[theme]} onClick={next}>
+    <IconButton label={labels[theme]} shortcut="⌘D" onClick={next} size="sm">
       <Icon size={18} weight="duotone" />
     </IconButton>
   )

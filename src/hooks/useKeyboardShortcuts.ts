@@ -3,7 +3,7 @@ import { useUIStore } from '@/stores/uiStore'
 import { useFileOperations } from './useFileOperations'
 
 export function useKeyboardShortcuts() {
-  const { saveCurrentDocument, createNewDocument } = useFileOperations()
+  const { saveCurrentDocument, createNewDocument, exportCurrentDocument } = useFileOperations()
   const toggleSidebar = useUIStore((s) => s.toggleSidebar)
   const setViewMode = useUIStore((s) => s.setViewMode)
   const viewMode = useUIStore((s) => s.viewMode)
@@ -29,6 +29,11 @@ export function useKeyboardShortcuts() {
         toggleSidebar()
       }
 
+      if (mod && e.key === 'e' && !e.shiftKey) {
+        e.preventDefault()
+        exportCurrentDocument()
+      }
+
       if (mod && e.shiftKey && e.key === 'E') {
         e.preventDefault()
         setViewMode(viewMode === 'split' ? 'tabs' : 'split')
@@ -43,5 +48,5 @@ export function useKeyboardShortcuts() {
 
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [saveCurrentDocument, createNewDocument, toggleSidebar, setViewMode, viewMode, theme, setTheme])
+  }, [saveCurrentDocument, createNewDocument, exportCurrentDocument, toggleSidebar, setViewMode, viewMode, theme, setTheme])
 }

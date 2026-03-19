@@ -3,9 +3,21 @@ import type { Components } from 'react-markdown'
 import { CodeBlock } from './CodeBlock'
 import { MermaidBlock } from './MermaidBlock'
 
-function extractCodeInfo(children: ReactNode): { language: string; code: string } | null {
+function extractText(node: ReactNode): string {
+  if (typeof node === 'string') return node
+  if (typeof node === 'number') return String(node)
+  if (Array.isArray(node)) return node.map(extractText).join('')
+  if (isValidElement(node)) {
+    const props = node.props as { children?: ReactNode }
+    return extractText(props.children)
+  }
+  return ''
+}
+
+function extractCodeInfo(children: ReactNode): { language: string; code: string; highlighted: ReactNode } | null {
   // react-markdown renders <pre><code className="language-xxx">...</code></pre>
-  // We need to extract language and text from the <code> child
+  // rehype-highlight transforms the code children into highlighted span elements,
+  // so we must recursively extract text instead of using String() directly.
   if (!isValidElement(children)) return null
 
   const props = children.props as { className?: string; children?: ReactNode }
@@ -15,7 +27,8 @@ function extractCodeInfo(children: ReactNode): { language: string; code: string 
 
   return {
     language: match[1],
-    code: String(props.children || '').replace(/\n$/, ''),
+    code: extractText(props.children).replace(/\n$/, ''),
+    highlighted: props.children,
   }
 }
 
@@ -31,7 +44,7 @@ export const previewComponents: Components = {
       return <MermaidBlock chart={info.code} />
     }
 
-    return <CodeBlock language={info.language} code={info.code} />
+    return <CodeBlock language={info.language} code={info.code}>{info.highlighted}</CodeBlock>
   },
 
   a({ href, children, ...props }) {
