@@ -22,7 +22,7 @@ export function FileList() {
   }
 
   return (
-    <div className="flex flex-col gap-0.5 px-2 py-1">
+    <div className="flex flex-col">
       {files.map((file) => (
         <FileItem
           key={file.id}

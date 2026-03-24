@@ -50,8 +50,10 @@ export function SplitPane({ left, right }: SplitPaneProps) {
         onMouseDown={handleMouseDown}
       >
         <div
-          className={`absolute inset-y-0 -left-px w-[3px] transition-colors duration-150
-            ${isDragging ? 'bg-accent' : 'bg-border hover:bg-accent/50'}`}
+          className={`absolute inset-y-0 -left-px transition-all duration-150
+            ${isDragging
+              ? 'w-[2px] bg-accent shadow-[0_0_12px_var(--accent)]'
+              : 'w-px bg-border group-hover:bg-accent/60 group-hover:w-[2px]'}`}
         />
       </div>
 

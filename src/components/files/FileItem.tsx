@@ -1,5 +1,5 @@
 import { memo, useState, useRef, useEffect } from 'react'
-import { FileText, Trash, PencilSimple } from '@phosphor-icons/react'
+import { Trash, PencilSimple } from '@phosphor-icons/react'
 import type { FileMetadata } from '@/types/document'
 import { formatFileSize } from '@/lib/fileUtils'
 
@@ -43,16 +43,15 @@ export const FileItem = memo(function FileItem({
 
   return (
     <div
-      className={`group flex items-start gap-3 px-3 py-2.5 rounded-lg cursor-pointer transition-colors duration-100
+      className={`group relative flex items-start px-4 py-2.5 cursor-pointer transition-colors duration-100 border-b border-border/50
         ${isActive ? 'bg-accent-muted' : 'hover:bg-surface-tertiary'}`}
       onClick={() => onOpen(file.id)}
     >
-      <FileText
-        size={18}
-        weight={isActive ? 'fill' : 'regular'}
-        className={`mt-0.5 shrink-0 ${isActive ? 'text-accent' : 'text-text-muted'}`}
-      />
-      <div className="flex-1 min-w-0">
+      {isActive && (
+        <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-accent" />
+      )}
+
+      <div className="flex-1 min-w-0 pl-1">
         {isEditing ? (
           <input
             ref={inputRef}
@@ -67,18 +66,19 @@ export const FileItem = memo(function FileItem({
               }
             }}
             onClick={(e) => e.stopPropagation()}
-            className="w-full bg-surface border border-border rounded px-1.5 py-0.5 text-sm text-text outline-none focus:border-accent"
+            className="w-full bg-surface border border-accent rounded px-1.5 py-0.5 text-[13px] text-text outline-none font-sans"
           />
         ) : (
-          <p className={`text-sm font-medium truncate ${isActive ? 'text-accent' : 'text-text'}`}>
+          <p className={`text-[13px] font-medium leading-snug truncate ${isActive ? 'text-accent' : 'text-text'}`}>
             {file.name}
           </p>
         )}
-        <p className="text-xs text-text-muted mt-0.5">
+        <p className="text-[11px] text-text-muted mt-0.5 font-mono tracking-tight">
           {timeAgo} · {formatFileSize(file.size)}
         </p>
       </div>
-      <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+
+      <div className="flex items-center gap-0 opacity-0 group-hover:opacity-100 transition-opacity shrink-0 ml-1 mt-0.5">
         <button
           onClick={(e) => {
             e.stopPropagation()
@@ -88,7 +88,7 @@ export const FileItem = memo(function FileItem({
           className="p-1 text-text-muted hover:text-text rounded transition-colors cursor-pointer"
           aria-label="Rename"
         >
-          <PencilSimple size={14} />
+          <PencilSimple size={13} />
         </button>
         <button
           onClick={(e) => {
@@ -98,7 +98,7 @@ export const FileItem = memo(function FileItem({
           className="p-1 text-text-muted hover:text-danger rounded transition-colors cursor-pointer"
           aria-label="Delete"
         >
-          <Trash size={14} />
+          <Trash size={13} />
         </button>
       </div>
     </div>

@@ -52,7 +52,7 @@ export function Toolbar() {
       <div className="w-px h-5 bg-border mx-1" />
 
       {activeFile && (
-        <span className="text-sm font-medium text-text truncate max-w-48 px-2">
+        <span className="text-[13px] font-medium text-text-secondary truncate max-w-48 px-2 tracking-tight">
           {activeFile.name}
         </span>
       )}

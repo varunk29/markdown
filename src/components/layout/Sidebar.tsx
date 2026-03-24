@@ -18,19 +18,22 @@ export function Sidebar() {
           ${sidebarOpen ? 'w-64' : 'w-0'}`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-border shrink-0">
-          <h1 className="text-sm font-bold text-text tracking-tight">Markview</h1>
+        <div className="px-5 pt-6 pb-0 shrink-0">
+          <h1 className="font-heading italic text-[1.35rem] leading-none text-text tracking-tight">
+            Markview
+          </h1>
+          <div className="h-px bg-border mt-4" />
         </div>
 
         {/* Actions */}
-        <div className="flex gap-1.5 px-3 py-2.5 shrink-0">
+        <div className="flex gap-2 px-4 py-3 shrink-0 border-b border-border">
           <Button
             variant="primary"
             size="sm"
             className="flex-1"
             onClick={() => createNewDocument()}
           >
-            <Plus size={14} weight="bold" />
+            <Plus size={13} weight="bold" />
             New
           </Button>
           <Button
@@ -39,9 +42,16 @@ export function Sidebar() {
             className="flex-1"
             onClick={() => setImportOpen(true)}
           >
-            <FolderOpen size={14} />
+            <FolderOpen size={13} />
             Import
           </Button>
+        </div>
+
+        {/* Documents label */}
+        <div className="px-5 pt-3 pb-1.5 shrink-0">
+          <span className="text-[10px] font-sans font-semibold tracking-[0.12em] uppercase text-text-muted">
+            Documents
+          </span>
         </div>
 
         {/* File List */}

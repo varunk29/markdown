@@ -12,12 +12,15 @@ export function StatusBar() {
   const lineCount = content.split('\n').length
 
   return (
-    <div className="flex items-center h-7 px-3 gap-4 border-t border-border bg-surface-secondary text-xs text-text-muted shrink-0">
+    <div className="flex items-center h-7 px-4 gap-4 border-t border-border bg-surface-secondary text-[11px] text-text-muted shrink-0 font-mono tracking-tight">
       <span>
         Ln {cursorPosition.line}, Col {cursorPosition.col}
       </span>
+      <span className="text-border">·</span>
       <span>{lineCount} lines</span>
+      <span className="text-border">·</span>
       <span>{wordCount} words</span>
+      <span className="text-border">·</span>
       <span>{formatFileSize(new TextEncoder().encode(content).length)}</span>
       <div className="flex-1" />
       <span>{getReadTime(wordCount)}</span>
