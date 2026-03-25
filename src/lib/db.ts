@@ -1,7 +1,7 @@
 import { openDB, type IDBPDatabase } from 'idb'
 import type { MarkdownDocument, FileMetadata } from '@/types/document'
 
-const DB_NAME = 'markview-db'
+const DB_NAME = 'markdown-viewer-db'
 const DB_VERSION = 1
 const STORE_NAME = 'documents'
 

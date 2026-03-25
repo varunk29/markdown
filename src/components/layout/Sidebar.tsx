@@ -20,7 +20,7 @@ export function Sidebar() {
         {/* Header */}
         <div className="px-5 pt-6 pb-0 shrink-0">
           <h1 className="font-heading italic text-[1.35rem] leading-none text-text tracking-tight">
-            Markview
+            vk markdown
           </h1>
           <div className="h-px bg-border mt-4" />
         </div>

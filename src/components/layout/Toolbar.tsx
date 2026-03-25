@@ -8,6 +8,7 @@ import {
   DownloadSimple,
   FloppyDisk,
   Check,
+  ArrowSquareOut,
 } from '@phosphor-icons/react'
 import { useUIStore } from '@/stores/uiStore'
 import { useEditorStore } from '@/stores/editorStore'
@@ -16,6 +17,8 @@ import { useFileOperations } from '@/hooks/useFileOperations'
 import { downloadAsMarkdown } from '@/lib/fileUtils'
 import { IconButton } from '@/components/ui/IconButton'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
+import { useGoogleDriveExport } from '@/hooks/useGoogleDriveExport'
+import { GoogleDocsExportDialog } from '@/components/ui/GoogleDocsExportDialog'
 
 export function Toolbar() {
   const viewMode = useUIStore((s) => s.viewMode)
@@ -29,6 +32,7 @@ export function Toolbar() {
   const files = useFileStore((s) => s.files)
   const { saveCurrentDocument } = useFileOperations()
   const [saving, setSaving] = useState(false)
+  const { status: googleStatus, docUrl, errorMessage, exportToGoogleDocs, reset: resetGoogleExport } = useGoogleDriveExport()
 
   const activeFile = files.find((f) => f.id === activeDocumentId)
 
@@ -43,7 +47,13 @@ export function Toolbar() {
     downloadAsMarkdown(activeFile.name, content)
   }
 
+  const handleGoogleDocsExport = () => {
+    if (!activeFile) return
+    exportToGoogleDocs(activeFile.name, content)
+  }
+
   return (
+    <>
     <div className="flex items-center h-11 px-2 gap-1 border-b border-border bg-surface-secondary shrink-0">
       <IconButton label="Toggle sidebar" shortcut="⌘B" onClick={toggleSidebar} size="sm">
         <List size={18} />
@@ -111,6 +121,10 @@ export function Toolbar() {
 
       {activeDocumentId && (
         <>
+          <IconButton label="Export to Google Docs" onClick={handleGoogleDocsExport} size="sm">
+            <ArrowSquareOut size={18} />
+          </IconButton>
+
           <IconButton label="Export as .md" shortcut="⌘E" onClick={handleExport} size="sm">
             <DownloadSimple size={18} />
           </IconButton>
@@ -134,5 +148,13 @@ export function Toolbar() {
         </>
       )}
     </div>
+
+    <GoogleDocsExportDialog
+      status={googleStatus}
+      docUrl={docUrl}
+      errorMessage={errorMessage}
+      onClose={resetGoogleExport}
+    />
+    </>
   )
 }

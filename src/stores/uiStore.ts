@@ -38,7 +38,7 @@ export const useUIStore = create<UIState>()(
       setSplitRatio: (splitRatio) => set({ splitRatio }),
     }),
     {
-      name: 'markview-ui',
+      name: 'markdown-viewer-ui',
       partialize: (state) => ({
         viewMode: state.viewMode,
         sidebarOpen: state.sidebarOpen,
